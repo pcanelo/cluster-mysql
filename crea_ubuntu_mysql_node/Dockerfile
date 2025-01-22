@@ -14,16 +14,15 @@ RUN apt-get update && apt-get upgrade -y && \
     lsb-release && \
     rm -rf /var/lib/apt/lists/*
 
-# Agrega el repositorio de Node.js 20 y MySQL Router
+# Agrega el repositorio de Node.js 20
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
-    curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb -o mysql-apt-config.deb && \
-    dpkg -i mysql-apt-config.deb && \
-    apt-get update && \
-    rm -f mysql-apt-config.deb
+    apt-get update && apt-get install -y nodejs
 
-# Instala Node.js 20 y MySQL Router
-RUN apt-get install -y nodejs mysql-router && \
-    rm -rf /var/lib/apt/lists/*
+# Agrega el repositorio de MySQL Router
+RUN curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.8.22-1_all.deb -o mysql-apt-config.deb && \
+    dpkg -i mysql-apt-config.deb && \
+    apt-get update && apt-get install -y mysql-router && \
+    rm -f mysql-apt-config.deb
 
 # Crea un directorio de trabajo
 WORKDIR /app
